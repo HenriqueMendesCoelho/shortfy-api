@@ -4,6 +4,6 @@ namespace suavesabor_api.User.UseCase
 {
     public interface ISearchUserUseCase
     {
-        Task<List<UserDomain>> listAll();
+        Task<List<UserDomain>> ListAll();
     }
 }

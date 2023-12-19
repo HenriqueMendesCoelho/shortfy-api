@@ -1,6 +1,8 @@
 ﻿namespace suavesabor_api.User.Domain
 {
-    public class RoleDomain
+    public enum RoleDomain
     {
+        USER = 1,
+        ADMIN = 2,
     }
 }

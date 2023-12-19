@@ -7,9 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.RegisterServices();
 builder.InjectDepencies();
-builder.ConnectToMongoDb();
+builder.ConnectToDb();
+
 
 var app = builder.Build();
+app.DoMigration();
 
 // Configure the HTTP request pipeline.
 app.RegisterMiddlewares();

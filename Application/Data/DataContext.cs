@@ -1,19 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MongoDB.EntityFrameworkCore.Extensions;
+using suavesabor_api.Application.Data.TypeConfiguration;
 using suavesabor_api.User.Domain;
 
 namespace suavesabor_api.Application.Data
 {
-    public class DataContext : DbContext
+    public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
     {
-        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-
         public DbSet<UserDomain> User { get; set; }
+        public DbSet<UserRoleDomain> UserRole { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<UserDomain>().ToCollection("users");
+            new UserTypeConfiguration().Configure(modelBuilder.Entity<UserDomain>());
+            new UserRoleTypeConfiguration().Configure(modelBuilder.Entity<UserRoleDomain>());
         }
     }
 }

@@ -1,10 +1,9 @@
-﻿using MongoDB.Bson;
-using suavesabor_api.Application.Domain.Base;
+﻿using suavesabor_api.Application.Domain.Base;
 
 namespace suavesabor_api.Order.Domain
 {
-    public class Order : IEntity<ObjectId>
+    public class Order : IEntity<Guid>
     {
-        public ObjectId Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

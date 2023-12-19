@@ -7,7 +7,7 @@ namespace suavesabor_api.User.UseCase.Impl
     {
         private readonly IUserRepository _repository = repository;
 
-        async public Task<List<UserDomain>> listAll()
+        async public Task<List<UserDomain>> ListAll()
         {
             return await _repository.FindAll();
         }

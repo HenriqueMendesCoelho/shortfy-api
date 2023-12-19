@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MongoDB.Bson;
 using suavesabor_api.Application.Data;
 using suavesabor_api.Application.Repository.Generic;
 using suavesabor_api.Application.Repository.Generic.Impl;
@@ -33,14 +32,14 @@ namespace suavesabor_api.Application.Configuration
         public static void InjectDepencies(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IUserRepository, UserRepositoryImpl>();
-            builder.Services.AddScoped(typeof(IGenericRepository<UserDomain, ObjectId>), typeof(GenericRepositoryImpl<UserDomain, ObjectId>));
+            builder.Services.AddScoped(typeof(IGenericRepository<UserDomain, Guid>), typeof(GenericRepositoryImpl<UserDomain, Guid>));
             builder.Services.AddScoped<ISearchUserUseCase, SearchUserUseCaseImpl>();
             builder.Services.AddScoped<ICreateUserUseCase, CreateUserUseCaseImpl>();
         }
 
-        public static void ConnectToMongoDb(this WebApplicationBuilder builder)
+        public static void ConnectToDb(this WebApplicationBuilder builder)
         {
-            var environmentVariableName = "MONGODB_URI";
+            var environmentVariableName = "DB-URL";
             var connectionString = Environment.GetEnvironmentVariable(environmentVariableName);
             if (connectionString == null)
             {
@@ -50,7 +49,7 @@ namespace suavesabor_api.Application.Configuration
 
             builder.Services.AddDbContext<DataContext>(options =>
             {
-                options.UseMongoDB(connectionString, "suave_sabor");
+                options.UseNpgsql(connectionString);
             });
 
         }
@@ -64,6 +63,16 @@ namespace suavesabor_api.Application.Configuration
                    .UseSwaggerUI();
             }
             //app.UseHttpsRedirection();
+        }
+
+        public static void DoMigration(this WebApplication app)
+        {
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+                dataContext.Database.Migrate();
+            }
         }
     }
 }
