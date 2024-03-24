@@ -9,17 +9,17 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["suavesabor-apí.csproj", "."]
-RUN dotnet restore "./././suavesabor-apí.csproj"
+COPY ["suavesabor-api.csproj", "."]
+RUN dotnet restore "./././suavesabor-api.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "./suavesabor-apí.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./suavesabor-api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./suavesabor-apí.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./suavesabor-api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "suavesabor-apí.dll"]
+ENTRYPOINT ["dotnet", "suavesabor-api.dll"]
