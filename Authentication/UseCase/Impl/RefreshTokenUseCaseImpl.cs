@@ -20,9 +20,9 @@ namespace suavesabor_api.Authentication.UseCase.Impl
                 throw new SecurityTokenException("Invalid token");
             }
 
-            var newRefreshToken = _createRefreshTokenUseCase.CreateRefreshTokenUseCase();
+            var newRefreshToken = _createRefreshTokenUseCase.Execute();
             var roles = user.Roles.Select(r => r.ToString() ?? throw new SecurityTokenException("Invalid token")).ToList();
-            var acessToken = _createTokenUseCase.CreateAccessToken(user.Id, user.Email, roles);
+            var acessToken = _createTokenUseCase.Execute(user.Id, user.Email, roles);
 
             user.RefreshToken = newRefreshToken.RefreshToken;
             user.RefreshTokenExpiryTime = newRefreshToken.Expiration;
