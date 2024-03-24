@@ -1,11 +1,12 @@
-﻿using suavesabor_api.Application.Domain.Base;
+﻿using suavesabor_api.Application.Attributes;
+using suavesabor_api.Application.Domain.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace suavesabor_api.User.Domain
 {
     [Table("User")]
-    //[IncludeRelatedEntities("Orders", "Addresses")]
+    [IncludeRelatedEntities("Roles")]
     public class UserDomain : IEntity<Guid>
     {
         public Guid Id { get; set; }
@@ -16,5 +17,7 @@ namespace suavesabor_api.User.Domain
         public required string Password { get; set; }
         public DateTime CreatedAt { get; set; }
         public ICollection<UserRoleDomain> Roles { get; set; } = [];
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
     }
 }

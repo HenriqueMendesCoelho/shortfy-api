@@ -13,8 +13,13 @@ namespace suavesabor_api.User.Endpoints
         {
             var users = routes.MapGroup("/api/v1/user");
 
-            users.MapGet("", async (ISearchUserUseCase useCase) =>
+            users.MapGet("", async (ISearchUserUseCase useCase, HttpContext httpContext) =>
             {
+                if (!httpContext.User?.Identity?.IsAuthenticated is true)
+                {
+                    return Results.Unauthorized();
+                }
+
                 List<UserResponseDto> response = (await useCase.ListAll()).Select(user => new UserResponseDto(user)).ToList();
                 if (response.Count() == 0)
                 {
@@ -27,9 +32,9 @@ namespace suavesabor_api.User.Endpoints
             users.MapPost("", async (UserRequestDto request, ICreateUserUseCase useCase, DataContext context) =>
             {
                 var validationResult = ValidationRequestUtil.IsValid(new UserRequestDtoValidator(), request);
-                if(validationResult is not true)
+                if (validationResult is not true)
                 {
-                    return validationResult;
+                    return Results.BadRequest(validationResult);
                 }
                 UserResponseDto response = new(await useCase.Create(request.ToDomain()));
 

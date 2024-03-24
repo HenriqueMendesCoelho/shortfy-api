@@ -1,6 +1,6 @@
-﻿using suavesabor_api.User.Domain;
+﻿using suavesabor_api.Application.Util;
+using suavesabor_api.User.Domain;
 using suavesabor_api.User.Repository;
-using System.Data;
 
 namespace suavesabor_api.User.UseCase.Impl
 {
@@ -8,14 +8,20 @@ namespace suavesabor_api.User.UseCase.Impl
     {
         private static readonly UserRoleDomain USER_ROLE = new() { Role = RoleDomain.USER };
 
-        private IUserRepository _repository = repository;
+        private readonly IUserRepository _repository = repository;
 
         async public Task<UserDomain> Create(UserDomain user)
         {
             user.Roles = [USER_ROLE];
             user.CreatedAt = DateTime.UtcNow;
+            user.Password = EncryptPassword(user.Password);
 
             return await _repository.Create(user);
+        }
+
+        private string EncryptPassword(string password)
+        {
+            return PasswordHasherUtil.HashPassword(password);
         }
     }
 }

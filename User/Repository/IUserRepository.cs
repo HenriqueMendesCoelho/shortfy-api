@@ -5,5 +5,9 @@ namespace suavesabor_api.User.Repository
 {
     public interface IUserRepository : IGenericRepository<UserDomain, Guid>
     {
+
+        Task<UserDomain?> FindByEmail(string email);
+
+        Task<UserDomain?> FindByRefreshToken(string refreshToken);
     }
 }

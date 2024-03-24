@@ -79,6 +79,7 @@ namespace suavesabor_api.Application.Repository.Generic.Impl
             {
                 foreach (var EntityToInclude in IncludeAttribute.EntitiesToInclude)
                 {
+                    Console.WriteLine(EntityToInclude);
                     Query = Query.Include(EntityToInclude);
                 }
             }
