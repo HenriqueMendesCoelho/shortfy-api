@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using FluentValidation;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using suavesabor_api.src.Application.Data;
@@ -7,6 +9,8 @@ using suavesabor_api.src.Application.Repository.Generic.Impl;
 using suavesabor_api.src.Authentication.UseCase;
 using suavesabor_api.src.Authentication.UseCase.Impl;
 using suavesabor_api.User.Domain;
+using suavesabor_api.User.Endpoints.Dto;
+using suavesabor_api.User.Endpoints.Dto.Validators;
 using suavesabor_api.User.Repository;
 using suavesabor_api.User.Repository.Impl;
 using suavesabor_api.User.UseCase;
@@ -45,6 +49,8 @@ namespace suavesabor_api.src.Application.Configuration
             builder.Services.AddScoped<IGetPrincipalTokenUseCase, GetPrincipalTokenUseCaseImpl>();
             builder.Services.AddScoped<ICreateRefreshTokenUseCase, CreateRefreshTokenUseCaseImpl>();
             builder.Services.AddScoped<IRefreshTokenUseCase, RefreshTokenUseCaseImpl>();
+            builder.Services.AddTransient<IValidator<UserRequestDto>, UserRequestDtoValidator>();
+            builder.Services.AddFluentValidationRulesToSwagger();
         }
 
         public static void ConnectToDb(this WebApplicationBuilder builder)
