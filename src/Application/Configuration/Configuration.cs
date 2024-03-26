@@ -121,7 +121,7 @@ namespace suavesabor_api.src.Application.Configuration
                 app.UseSwagger()
                    .UseSwaggerUI();
             }
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
         }
 
         public static void DoMigration(this WebApplication app)
