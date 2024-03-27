@@ -21,6 +21,7 @@ app.DoMigration();
 app.RegisterMiddlewares();
 app.RegisterUserEndpoints();
 app.RegisterAuthenticationEndpoints();
+app.DisableCors();
 
 
 app.Run();

@@ -35,7 +35,8 @@ namespace suavesabor_api.src.Application.Configuration
                        options.SerializerOptions.WriteIndented = true;
                        options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
                        options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-                   }); ;
+                   });
+            builder.Services.AddCors();
         }
 
         public static void InjectDepencies(this WebApplicationBuilder builder)
@@ -122,6 +123,14 @@ namespace suavesabor_api.src.Application.Configuration
                    .UseSwaggerUI();
             }
             //app.UseHttpsRedirection();
+        }
+
+        public static void DisableCors(this WebApplication app)
+        {
+            app.UseCors(builder =>
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
         }
 
         public static void DoMigration(this WebApplication app)
