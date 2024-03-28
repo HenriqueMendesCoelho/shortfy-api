@@ -8,7 +8,7 @@ namespace suavesabor_api.src.Application.Repository.Generic
 
         Task<T?> Update(T Entity);
 
-        void Delete(T Id);
+        void DeleteByID(TKey Id);
 
         Task<T?> FindByID(TKey Id);
 

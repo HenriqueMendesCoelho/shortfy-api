@@ -23,16 +23,16 @@ namespace suavesabor_api.src.Application.Repository.Generic.Impl
             return Entity;
         }
 
-        public void Delete(T id)
+        async public void DeleteByID(TKey id)
         {
-            var result = Dataset.SingleOrDefault(r => r.Id != null && r.Id.Equals(id));
+            var result = await Dataset.SingleOrDefaultAsync(r => r.Id != null && r.Id.Equals(id));
             if (result == null)
             {
                 return;
             }
 
             Dataset.Remove(result);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         async public Task<bool> Exists(T Entity)
