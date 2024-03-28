@@ -32,16 +32,22 @@ namespace suavesabor_api.src.Authentication.UseCase.Impl
 
         public List<Claim> CreateClaims(Guid id, string email, ICollection<string> roles, DateTime expires)
         {
-            return
-            [
-                new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-                new ("id", id.ToString()),
-                new (JwtRegisteredClaimNames.Email, email),
-                new (JwtRegisteredClaimNames.Sub, email),
-                new (JwtRegisteredClaimNames.Aud, _tokenConfiguration.Audience),
-                new (JwtRegisteredClaimNames.Exp, expires.ToString()),
-                new (ClaimTypes.Role, string.Join(",", roles))
-            ];
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
+                new Claim("id", id.ToString()),
+                new(JwtRegisteredClaimNames.Email, email),
+                new(JwtRegisteredClaimNames.Sub, email),
+                new(JwtRegisteredClaimNames.Aud, _tokenConfiguration.Audience),
+                new(JwtRegisteredClaimNames.Exp, expires.ToString()),
+                new("roles", string.Join(",", roles))
+            };
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            return claims;
         }
     }
 }

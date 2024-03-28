@@ -112,6 +112,19 @@ namespace suavesabor_api.src.Application.Configuration
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(token.Secret))
                 };
             });
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ADMIN",
+                authBuilder =>
+                {
+                    authBuilder.RequireRole("ADMIN");
+                });
+                options.AddPolicy("USER",
+                authBuilder =>
+                {
+                    authBuilder.RequireRole("USER");
+                });
+            });
         }
 
         public static void RegisterMiddlewares(this WebApplication app)

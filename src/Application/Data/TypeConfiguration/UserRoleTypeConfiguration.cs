@@ -8,7 +8,7 @@ namespace suavesabor_api.src.Application.Data.TypeConfiguration
     {
         public void Configure(EntityTypeBuilder<UserRoleDomain> builder)
         {
-            builder.HasIndex(ur => new { ur.UserId, ur.Role }).IsUnique(true);
+            builder.HasKey(e => new { e.UserId, e.Role });
         }
     }
 }

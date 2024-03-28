@@ -12,7 +12,7 @@ using suavesabor_api.src.Application.Data;
 namespace suavesabor_api.src.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240326002217_createInitial")]
+    [Migration("20240328031542_createInitial")]
     partial class createInitial
     {
         /// <inheritdoc />
@@ -70,10 +70,7 @@ namespace suavesabor_api.src.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("integer");
 
-                    b.HasKey("UserId");
-
-                    b.HasIndex("UserId", "Role")
-                        .IsUnique();
+                    b.HasKey("UserId", "Role");
 
                     b.ToTable("UserRole");
                 });

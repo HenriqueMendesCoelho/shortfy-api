@@ -37,7 +37,7 @@ namespace suavesabor_api.src.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRole", x => x.UserId);
+                    table.PrimaryKey("PK_UserRole", x => new { x.UserId, x.Role });
                     table.ForeignKey(
                         name: "FK_UserRole_User_UserId",
                         column: x => x.UserId,
@@ -50,12 +50,6 @@ namespace suavesabor_api.src.Migrations
                 name: "IX_User_Email",
                 table: "User",
                 column: "Email",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRole_UserId_Role",
-                table: "UserRole",
-                columns: new[] { "UserId", "Role" },
                 unique: true);
         }
 

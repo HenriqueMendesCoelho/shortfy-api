@@ -67,10 +67,7 @@ namespace suavesabor_api.src.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("integer");
 
-                    b.HasKey("UserId");
-
-                    b.HasIndex("UserId", "Role")
-                        .IsUnique();
+                    b.HasKey("UserId", "Role");
 
                     b.ToTable("UserRole");
                 });

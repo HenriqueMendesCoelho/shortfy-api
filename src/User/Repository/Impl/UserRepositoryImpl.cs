@@ -11,7 +11,7 @@ namespace suavesabor_api.User.Repository.Impl
 
         async public Task<UserDomain?> FindByEmail(string email)
         {
-            return await _context.User.FirstOrDefaultAsync(u => string.Equals(u.Email, email));
+            return await _context.User.Include(u => u.Roles).FirstOrDefaultAsync(u => string.Equals(u.Email, email));
         }
 
         async public Task<UserDomain?> FindByRefreshToken(string refreshToken)
