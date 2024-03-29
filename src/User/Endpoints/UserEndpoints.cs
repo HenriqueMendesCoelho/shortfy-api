@@ -50,9 +50,21 @@ namespace suavesabor_api.User.Endpoints
                 {
                     return Results.BadRequest(validationResult);
                 }
-                UserResponseDto response = new(await useCase.Create(request.ToDomain()));
 
-                return Results.Ok(response);
+                try
+                {
+                    UserResponseDto response = new(await useCase.Create(request.ToDomain()));
+
+                    return Results.Ok(response);
+                }
+                catch (EmailConflictException e)
+                {
+                    return Results.Conflict(e.Message);
+                }
+                catch (Exception)
+                {
+                    return Results.Problem("Internal Server Error, contact administrator");
+                }
             });
 
             users.MapPut("/{id}", async (Guid id, UserUpdateRequestDto request, IUpdateUserUseCase useCase, ClaimsPrincipal userClaims,
