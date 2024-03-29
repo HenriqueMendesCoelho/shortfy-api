@@ -18,7 +18,7 @@ namespace suavesabor_api.src.Authentication.UseCase.Impl
 
             if (PasswordHasherUtil.VerifyPassword(passwordString, user.Password) is not true) throw new UserAccessDeniedException();
             var newRefreshToken = _createRefreshTokenUseCase.Execute();
-            var roles = user.Roles.Select(r => r.Role.ToString() ?? throw new UserAccessDeniedException()).ToList();
+            var roles = user.Roles.Select(r => r.Role.ToString() ?? string.Empty).ToList();
             var acessToken = _createTokenUseCase.Execute(user.Id, user.Email, roles);
 
             user.RefreshToken = newRefreshToken.RefreshToken;

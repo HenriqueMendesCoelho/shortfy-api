@@ -27,11 +27,7 @@ namespace suavesabor_api.src.Authentication.Endpoints
                     var response = await loginUseCase.Execute(request.Email, request.Password);
                     return Results.Ok(response);
                 }
-                catch (UserNotFoundException e)
-                {
-                    return Results.NotFound(new MessageResponseDto { Success = false, Code = 404, Message = e.Message });
-                }
-                catch (UserAccessDeniedException)
+                catch (Exception e) when (e is UserNotFoundException || e is UserAccessDeniedException)
                 {
                     return Results.Unauthorized();
                 }
