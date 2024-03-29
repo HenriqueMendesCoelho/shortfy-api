@@ -5,5 +5,7 @@ namespace suavesabor_api.User.UseCase
     public interface ISearchUserUseCase
     {
         Task<List<UserDomain>> ListAll();
+
+        Task<UserDomain> FindByID(Guid id);
     }
 }

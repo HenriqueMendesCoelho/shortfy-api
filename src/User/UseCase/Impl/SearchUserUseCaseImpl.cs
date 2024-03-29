@@ -1,4 +1,5 @@
-﻿using suavesabor_api.User.Domain;
+﻿using suavesabor_api.src.Authentication.UseCase.Exceptions;
+using suavesabor_api.User.Domain;
 using suavesabor_api.User.Repository;
 
 namespace suavesabor_api.User.UseCase.Impl
@@ -10,6 +11,13 @@ namespace suavesabor_api.User.UseCase.Impl
         async public Task<List<UserDomain>> ListAll()
         {
             return await _repository.FindAll();
+        }
+
+        async public Task<UserDomain> FindByID(Guid id)
+        {
+            var user = await _repository.FindByID(id) ?? throw new UserNotFoundException();
+
+            return user;
         }
     }
 }

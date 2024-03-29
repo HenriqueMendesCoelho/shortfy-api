@@ -6,8 +6,14 @@ using Microsoft.IdentityModel.Tokens;
 using suavesabor_api.src.Application.Data;
 using suavesabor_api.src.Application.Repository.Generic;
 using suavesabor_api.src.Application.Repository.Generic.Impl;
+using suavesabor_api.src.Authentication.Endpoints.Dto;
+using suavesabor_api.src.Authentication.Endpoints.Dto.Validators;
 using suavesabor_api.src.Authentication.UseCase;
 using suavesabor_api.src.Authentication.UseCase.Impl;
+using suavesabor_api.src.User.Endpoints.Dto;
+using suavesabor_api.src.User.Endpoints.Dto.Validators;
+using suavesabor_api.src.User.UseCase;
+using suavesabor_api.src.User.UseCase.Impl;
 using suavesabor_api.User.Domain;
 using suavesabor_api.User.Endpoints.Dto;
 using suavesabor_api.User.Endpoints.Dto.Validators;
@@ -37,12 +43,18 @@ namespace suavesabor_api.src.Application.Configuration
                        options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                    });
             builder.Services.AddCors();
+            builder.Services.AddTransient<ILogger>(p =>
+            {
+                var loggerFactory = p.GetRequiredService<ILoggerFactory>();
+                return loggerFactory.CreateLogger("logger");
+            });
         }
 
         public static void InjectDepencies(this WebApplicationBuilder builder)
         {
-            builder.Services.AddScoped<IUserRepository, UserRepositoryImpl>();
             builder.Services.AddScoped(typeof(IGenericRepository<UserDomain, Guid>), typeof(GenericRepositoryImpl<UserDomain, Guid>));
+            builder.Services.AddScoped<IUserRepository, UserRepositoryImpl>();
+
             builder.Services.AddScoped<ISearchUserUseCase, SearchUserUseCaseImpl>();
             builder.Services.AddScoped<ICreateUserUseCase, CreateUserUseCaseImpl>();
             builder.Services.AddScoped<ICreateTokenUseCase, CreateTokenUseCaseImpl>();
@@ -50,7 +62,14 @@ namespace suavesabor_api.src.Application.Configuration
             builder.Services.AddScoped<IGetPrincipalTokenUseCase, GetPrincipalTokenUseCaseImpl>();
             builder.Services.AddScoped<ICreateRefreshTokenUseCase, CreateRefreshTokenUseCaseImpl>();
             builder.Services.AddScoped<IRefreshTokenUseCase, RefreshTokenUseCaseImpl>();
+            builder.Services.AddScoped<IUpdateUserUseCase, UpdateUserUseCaseImpl>();
+            builder.Services.AddScoped<IDeleteUserUseCase, DeleteUserUseCaseImpl>();
+
             builder.Services.AddTransient<IValidator<UserRequestDto>, UserRequestDtoValidator>();
+            builder.Services.AddTransient<IValidator<LoginRequestDto>, LoginRequestDtoValidator>();
+            builder.Services.AddTransient<IValidator<RefreshRequestDto>, RefreshTokenRequestDtoValidator>();
+            builder.Services.AddTransient<IValidator<UserUpdateRequestDto>, UserUpdateRequestDtoValidator>();
+
             builder.Services.AddFluentValidationRulesToSwagger();
         }
 
