@@ -4,6 +4,6 @@ namespace suavesabor_api.User.UseCase
 {
     public interface ICreateUserUseCase
     {
-        Task<UserDomain> Create(UserDomain user);
+        Task<UserDomain> Execute(UserDomain user, Guid? idCurrentUser);
     }
 }

@@ -43,7 +43,8 @@ namespace suavesabor_api.User.Endpoints
                 }
             });
 
-            users.MapPost("", async (UserRequestDto request, ICreateUserUseCase useCase) =>
+            users.MapPost("", async (UserRequestDto request, ICreateUserUseCase useCase, ClaimsPrincipal userClaims,
+                ILogger logger) =>
             {
                 var validationResult = ValidationRequestUtil.IsValid(new UserRequestDtoValidator(), request);
                 if (validationResult is not true)
@@ -53,16 +54,26 @@ namespace suavesabor_api.User.Endpoints
 
                 try
                 {
-                    UserResponseDto response = new(await useCase.Create(request.ToDomain()));
+                    var idCurrentUser = UserClaimsPrincipalUtil.GetIdNullable(userClaims);
+                    UserResponseDto response = new(await useCase.Execute(request.ToDomain(), idCurrentUser));
 
                     return Results.Ok(response);
                 }
                 catch (EmailConflictException e)
                 {
-                    return Results.Conflict(e.Message);
+                    return Results.Problem(e.Message, statusCode: 409);
                 }
-                catch (Exception)
+                catch (UserAccessDeniedException)
                 {
+                    return Results.Forbid();
+                }
+                catch (UserAcessNotAuthorizedException)
+                {
+                    return Results.Unauthorized();
+                }
+                catch (Exception e)
+                {
+                    logger.LogError(e, $"Error on update user '(POST)/api/v1/user'");
                     return Results.Problem("Internal Server Error, contact administrator");
                 }
             });

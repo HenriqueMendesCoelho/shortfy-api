@@ -19,6 +19,21 @@ namespace suavesabor_api.src.Application.Util
 
             return Guid.Parse(id);
         }
+
+        public static Guid? GetIdNullable(ClaimsPrincipal user)
+        {
+            if (user == null)
+            {
+                return null;
+            }
+            var id = user?.Claims.FirstOrDefault(c => c.Type == "id")?.Value;
+            if (string.IsNullOrEmpty(id))
+            {
+                return null;
+            }
+
+            return Guid.Parse(id);
+        }
         public static string GetEmail(ClaimsPrincipal user)
         {
             if (user == null)
