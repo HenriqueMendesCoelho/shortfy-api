@@ -1,10 +1,21 @@
-﻿namespace suavesabor_api.src.Application.Dto
+﻿using suavesabor_api.src.Application.Domain;
+
+namespace suavesabor_api.src.Application.Dto
 {
     public class MessageResponseDto
     {
-        public bool Success { get; set; }
-        public required int Code { get; set; }
-        public required string Message { get; set; }
+        public bool Success { get; set; } = false;
+        public int Code { get; set; } = 0;
+        public string Message { get; set; } = string.Empty;
+
+        public MessageResponseDto() { }
+
+        public MessageResponseDto(MessageDomain domain)
+        {
+            Success = domain.Success;
+            Code = domain.Code;
+            Message = domain.Message;
+        }
 
         public static MessageResponseDto Create(string message, int code)
         {

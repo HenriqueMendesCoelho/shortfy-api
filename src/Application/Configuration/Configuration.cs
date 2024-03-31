@@ -64,6 +64,8 @@ namespace suavesabor_api.src.Application.Configuration
             builder.Services.AddScoped<IRefreshTokenUseCase, RefreshTokenUseCaseImpl>();
             builder.Services.AddScoped<IUpdateUserUseCase, UpdateUserUseCaseImpl>();
             builder.Services.AddScoped<IDeleteUserUseCase, DeleteUserUseCaseImpl>();
+            builder.Services.AddScoped<IPromoteUserUseCase, PromoteUserUseCaseImpl>();
+            builder.Services.AddScoped<IDemoteUserUseCase, DemoteUserUseCaseImpl>();
 
             builder.Services.AddTransient<IValidator<UserRequestDto>, UserRequestDtoValidator>();
             builder.Services.AddTransient<IValidator<LoginRequestDto>, LoginRequestDtoValidator>();

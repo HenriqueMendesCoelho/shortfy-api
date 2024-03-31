@@ -1,4 +1,5 @@
-﻿using suavesabor_api.src.Application.Dto;
+﻿using suavesabor_api.src.Application.Domain;
+using suavesabor_api.src.Application.Dto;
 using suavesabor_api.src.Application.Exceptions;
 using suavesabor_api.src.Application.Util;
 using suavesabor_api.src.Authentication.UseCase.Exceptions;
@@ -112,6 +113,46 @@ namespace suavesabor_api.User.Endpoints
                 }
 
             }).RequireAuthorization("USER");
+
+            users.MapPatch("/{id}/roles/promote", async (Guid id, IPromoteUserUseCase useCase, ClaimsPrincipal userClaims, ILogger logger) =>
+            {
+                try
+                {
+                    var idCurrentUser = UserClaimsPrincipalUtil.GetId(userClaims);
+                    MessageDomain domain = await useCase.Execute(id, idCurrentUser);
+                    return Results.Ok(new MessageResponseDto(domain));
+                }
+                catch (Exception e) when (e is UserAlreadyHasAdminPrivilegesException || e is SelfPromotionAttemptException || e is UserNotFoundException)
+                {
+                    return Results.BadRequest(MessageResponseDto.Create(e.Message, 400));
+                }
+                catch (Exception e)
+                {
+                    logger.LogError(e, $"Error on update user '(PATCH)/api/v1/user/${id}/roles/promote'");
+                    return Results.Problem("Internal Server Error, contact administrator");
+                }
+
+            }).RequireAuthorization("ADMIN");
+
+            users.MapPatch("/{id}/roles/demote", async (Guid id, IDemoteUserUseCase useCase, ClaimsPrincipal userClaims, ILogger logger) =>
+            {
+                try
+                {
+                    var idCurrentUser = UserClaimsPrincipalUtil.GetId(userClaims);
+                    MessageDomain domain = await useCase.Execute(id, idCurrentUser);
+                    return Results.Ok(new MessageResponseDto(domain));
+                }
+                catch (Exception e) when (e is NonAdminDemotionAttemptException || e is SelfDemotionAttemptException || e is UserNotFoundException)
+                {
+                    return Results.BadRequest(MessageResponseDto.Create(e.Message, 400));
+                }
+                catch (Exception e)
+                {
+                    logger.LogError(e, $"Error on update user '(PATCH)/api/v1/user/${id}/roles/demote'");
+                    return Results.Problem("Internal Server Error, contact administrator");
+                }
+
+            }).RequireAuthorization("ADMIN");
 
             users.MapDelete("/{id}", async (Guid id, IDeleteUserUseCase useCase, ClaimsPrincipal userClaims, ILogger logger) =>
             {
