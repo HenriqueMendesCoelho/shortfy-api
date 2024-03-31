@@ -10,7 +10,21 @@ namespace suavesabor_api.User.UseCase.Impl
 
         async public Task<List<UserDomain>> ListAll()
         {
-            return await _repository.FindAll();
+            var result = await _repository.FindAll();
+            result.Sort((u1, u2) =>
+            {
+                {
+                    var nameComparison = u1.Name.CompareTo(u2.Name);
+                    if (nameComparison != 0)
+                    {
+                        return nameComparison;
+                    }
+
+                    return u1.CreatedAt.CompareTo(u2.CreatedAt);
+                }
+            });
+
+            return result;
         }
 
         async public Task<UserDomain> FindByID(Guid id)
