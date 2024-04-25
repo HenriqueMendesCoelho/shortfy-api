@@ -16,7 +16,7 @@ namespace shortfy_api.User.Repository.Impl
 
         async public Task<UserDomain?> FindByRefreshToken(string refreshToken)
         {
-            return await _context.User.FirstOrDefaultAsync(u => string.Equals(u.RefreshToken, refreshToken));
+            return await _context.User.Include(u => u.Roles).FirstOrDefaultAsync(u => string.Equals(u.RefreshToken, refreshToken));
         }
     }
 }

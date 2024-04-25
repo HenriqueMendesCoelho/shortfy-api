@@ -1,5 +1,4 @@
 ﻿using shortfy_api.src.Application.Util;
-using shortfy_api.src.Authentication.UseCase.Exceptions;
 using shortfy_api.src.User.UseCase.Exceptions;
 using shortfy_api.User.Domain;
 using shortfy_api.User.Repository;
@@ -10,38 +9,27 @@ namespace shortfy_api.User.UseCase.Impl
     {
         private readonly IUserRepository _repository = repository;
 
-        async public Task<UserDomain> Execute(UserDomain user, Guid? idCurrentUser)
+        async public Task<UserDomain> Execute(UserDomain user)
         {
-            var existsAnyUser = await ExistsAnyUser();
-            var currentUser = idCurrentUser is not null ? await _repository.FindByID(idCurrentUser ?? Guid.Empty) : null;
-            if (existsAnyUser && idCurrentUser is null)
-            {
-                throw new UserAcessNotAuthorizedException();
-            }
-            if (existsAnyUser && currentUser is null)
-            {
-                throw new UserAccessDeniedException();
-            }
-            if (existsAnyUser && currentUser is not null && !currentUser.Roles.Any(r => r.Role.ToString() == "ADMIN"))
-            {
-                throw new UserAccessDeniedException();
-            }
-
             var userExists = await _repository.FindByEmail(user.Email);
             if (userExists is not null)
             {
                 throw new EmailConflictException();
             }
 
-            user.Roles = GetUserRoles(existsAnyUser);
+            user.Roles = await GetUserRoles();
             user.CreatedAt = DateTime.UtcNow;
-            user.Password = PasswordHasherUtil.HashPassword(user.Password);
+            if (user.Password is not null)
+            {
+                user.Password = PasswordHasherUtil.HashPassword(user.Password);
+            }
 
             return await _repository.Create(user);
         }
 
-        private List<UserRoleDomain> GetUserRoles(bool existsAnyUser)
+        async private Task<List<UserRoleDomain>> GetUserRoles()
         {
+            var existsAnyUser = await ExistsAnyUser();
             var adminRole = new UserRoleDomain() { Role = RoleDomain.ADMIN };
             var userRole = new UserRoleDomain() { Role = RoleDomain.USER };
 

@@ -21,7 +21,7 @@ namespace shortfy_api.src.Authentication.UseCase.Impl
             }
 
             var newRefreshToken = _createRefreshTokenUseCase.Execute();
-            var roles = user.Roles.Select(r => r.ToString() ?? throw new SecurityTokenException("Invalid token")).ToList();
+            var roles = user.Roles.Select(r => r.Role.ToString() ?? throw new SecurityTokenException("Invalid token")).ToList();
             var acessToken = _createTokenUseCase.Execute(user.Id, user.Email, roles);
 
             user.RefreshToken = newRefreshToken.RefreshToken;

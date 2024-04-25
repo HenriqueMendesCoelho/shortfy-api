@@ -42,10 +42,9 @@ namespace shortfy_api.User.Endpoints
                 {
                     return Results.NotFound(MessageResponseDto.Create("User not found", 404));
                 }
-            });
+            }).RequireAuthorization();
 
-            users.MapPost("", async (UserRequestDto request, ICreateUserUseCase useCase, ClaimsPrincipal userClaims,
-                ILogger logger) =>
+            users.MapPost("", async (UserRequestDto request, ICreateUserUseCase useCase, ILogger logger) =>
             {
                 var validationResult = ValidationRequestUtil.IsValid(new UserRequestDtoValidator(), request);
                 if (validationResult is not true)
@@ -55,8 +54,7 @@ namespace shortfy_api.User.Endpoints
 
                 try
                 {
-                    var idCurrentUser = UserClaimsPrincipalUtil.GetIdNullable(userClaims);
-                    UserResponseDto response = new(await useCase.Execute(request.ToDomain(), idCurrentUser));
+                    UserResponseDto response = new(await useCase.Execute(request.ToDomain()));
 
                     return Results.Ok(response);
                 }

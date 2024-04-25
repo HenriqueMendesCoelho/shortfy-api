@@ -4,6 +4,6 @@ namespace shortfy_api.User.UseCase
 {
     public interface ICreateUserUseCase
     {
-        Task<UserDomain> Execute(UserDomain user, Guid? idCurrentUser);
+        Task<UserDomain> Execute(UserDomain user);
     }
 }

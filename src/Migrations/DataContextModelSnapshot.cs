@@ -17,12 +17,12 @@ namespace shortfy_api.src.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("suavesabor_api.User.Domain.UserDomain", b =>
+            modelBuilder.Entity("shortfy_api.User.Domain.UserDomain", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -42,7 +42,6 @@ namespace shortfy_api.src.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("RefreshToken")
@@ -59,7 +58,7 @@ namespace shortfy_api.src.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("suavesabor_api.User.Domain.UserRoleDomain", b =>
+            modelBuilder.Entity("shortfy_api.User.Domain.UserRoleDomain", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -72,9 +71,9 @@ namespace shortfy_api.src.Migrations
                     b.ToTable("UserRole");
                 });
 
-            modelBuilder.Entity("suavesabor_api.User.Domain.UserRoleDomain", b =>
+            modelBuilder.Entity("shortfy_api.User.Domain.UserRoleDomain", b =>
                 {
-                    b.HasOne("suavesabor_api.User.Domain.UserDomain", "User")
+                    b.HasOne("shortfy_api.User.Domain.UserDomain", "User")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -83,7 +82,7 @@ namespace shortfy_api.src.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("suavesabor_api.User.Domain.UserDomain", b =>
+            modelBuilder.Entity("shortfy_api.User.Domain.UserDomain", b =>
                 {
                     b.Navigation("Roles");
                 });

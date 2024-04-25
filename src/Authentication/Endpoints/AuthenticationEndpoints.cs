@@ -14,7 +14,39 @@ namespace shortfy_api.src.Authentication.Endpoints
         {
             var route = routes.MapGroup("/api/v1");
 
-            route.MapPost("login", async (LoginRequestDto request, ILoginUseCase loginUseCase, HttpContext httpContext) =>
+            route.MapPost("/google-signin", async (GoogleLoginRequestDto request, ILoginUseCase loginUseCase, ILogger logger) =>
+            {
+                try
+                {
+                    if (request is null || string.IsNullOrEmpty(request.idToken))
+                    {
+                        return Results.BadRequest();
+                    }
+                    var token = request.idToken!;
+                    var response = await loginUseCase.ExecuteFromGoogle(token);
+
+                    return Results.Ok(response);
+                }
+                catch (Exception e) when (e is UserNotFoundException || e is UserAccessDeniedException)
+                {
+                    logger.LogError(e.Message, e);
+                    return Results.Unauthorized();
+                }
+                catch (Exception e)
+                {
+                    logger.LogError(e.Message, e);
+                    return Results.Problem(e.Message);
+                }
+            });
+
+            route.MapPost("/oauth/google/callback", async (HttpContext httpContext) =>
+            {
+                //Print request body
+                var requestBody = await new StreamReader(httpContext.Request.Body).ReadToEndAsync();
+                Console.WriteLine(requestBody);
+            });
+
+            route.MapPost("login", async (LoginRequestDto request, ILoginUseCase loginUseCase, HttpContext httpContext, ILogger logger) =>
             {
                 var validationResult = ValidationRequestUtil.IsValid(new LoginRequestDtoValidator(), request);
                 if (validationResult is not true)
@@ -33,12 +65,12 @@ namespace shortfy_api.src.Authentication.Endpoints
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    logger.LogError(e.Message, e);
                     return Results.Problem(e.Message);
                 }
             });
 
-            route.MapPost("refresh", async (RefreshRequestDto request, IRefreshTokenUseCase refreshTokenUseCase, HttpContext httpContext) =>
+            route.MapPost("refresh", async (RefreshRequestDto request, IRefreshTokenUseCase refreshTokenUseCase, HttpContext httpContext, ILogger logger) =>
             {
                 var validationResult = ValidationRequestUtil.IsValid(new RefreshTokenRequestDtoValidator(), request);
                 if (validationResult is not true)
@@ -61,6 +93,7 @@ namespace shortfy_api.src.Authentication.Endpoints
                 }
                 catch (Exception e)
                 {
+                    logger.LogError(e.Message, e);
                     return Results.Problem(e.Message);
                 }
             });

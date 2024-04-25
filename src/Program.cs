@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.RegisterServices();
 builder.InjectDepencies();
 builder.ConnectToDb();
-builder.JwtConfig();
+builder.AuthenticationConfig();
 
 
 var app = builder.Build();

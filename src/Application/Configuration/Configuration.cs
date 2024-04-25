@@ -94,15 +94,24 @@ namespace shortfy_api.src.Application.Configuration
 
         }
 
-        public static void JwtConfig(this WebApplicationBuilder builder)
+        public static void AuthenticationConfig(this WebApplicationBuilder builder)
         {
             var token = builder.Configuration.GetSection("TokenConfiguration").Get<TokenConfiguration>();
-            var tokenEnvVariableName = "JWT_SECRET";
-            var tokenEnvSecret = Environment.GetEnvironmentVariable(tokenEnvVariableName);
+            var googleConfiguration = builder.Configuration.GetSection("GoogleConfiguration").Get<GoogleConfiguration>();
+
+            var tokenEnvSecret = Environment.GetEnvironmentVariable("JWT_SECRET");
+            var googleClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
+            var googleClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
+
 
             if (tokenEnvSecret is null)
             {
-                Console.WriteLine($"You must set your '${tokenEnvVariableName}' environment variable. \n");
+                Console.WriteLine("You must set your 'JWT_SECRET' environment variable. \n");
+                Environment.Exit(0);
+            }
+            if (googleClientId is null || googleClientSecret is null)
+            {
+                Console.WriteLine("You must set your 'GOOGLE_CLIENT_ID' and 'GOOGLE_CLIENT_SECRET' environment variable. \n");
                 Environment.Exit(0);
             }
             if (token is not null)
@@ -113,6 +122,17 @@ namespace shortfy_api.src.Application.Configuration
             else
             {
                 Console.WriteLine("TokenConfiguration is null.");
+                Environment.Exit(0);
+            }
+            if (googleConfiguration is not null)
+            {
+                googleConfiguration.ClientId = googleClientId;
+                googleConfiguration.ClientSecret = googleClientSecret;
+                builder.Services.AddSingleton(googleConfiguration);
+            }
+            else
+            {
+                Console.WriteLine("GoogleConfiguration is null.");
                 Environment.Exit(0);
             }
 
@@ -133,6 +153,7 @@ namespace shortfy_api.src.Application.Configuration
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(token.Secret))
                 };
             });
+
             builder.Services.AddAuthorization(options =>
             {
                 options.AddPolicy("ADMIN",
