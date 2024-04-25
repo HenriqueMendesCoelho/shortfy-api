@@ -1,4 +1,4 @@
-﻿namespace suavesabor_api.src.Application.Domain
+﻿namespace shortfy_api.src.Application.Domain
 {
     public class MessageDomain
     {

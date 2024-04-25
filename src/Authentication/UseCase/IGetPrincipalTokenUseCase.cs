@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace suavesabor_api.src.Authentication.UseCase
+namespace shortfy_api.src.Authentication.UseCase
 {
     public interface IGetPrincipalTokenUseCase
     {

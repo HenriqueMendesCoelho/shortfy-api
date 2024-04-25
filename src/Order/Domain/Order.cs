@@ -1,6 +1,6 @@
-﻿using suavesabor_api.src.Application.Domain.Base;
+﻿using shortfy_api.src.Application.Domain.Base;
 
-namespace suavesabor_api.src.Order.Domain
+namespace shortfy_api.src.Order.Domain
 {
     public class Order : IEntity<Guid>
     {

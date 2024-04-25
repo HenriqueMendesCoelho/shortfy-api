@@ -1,6 +1,6 @@
-﻿using suavesabor_api.src.Application.Domain;
+﻿using shortfy_api.src.Application.Domain;
 
-namespace suavesabor_api.src.User.UseCase
+namespace shortfy_api.src.User.UseCase
 {
     public interface IPromoteUserUseCase
     {

@@ -1,7 +1,7 @@
-﻿using suavesabor_api.src.Application.Repository.Generic;
-using suavesabor_api.User.Domain;
+﻿using shortfy_api.src.Application.Repository.Generic;
+using shortfy_api.User.Domain;
 
-namespace suavesabor_api.User.Repository
+namespace shortfy_api.User.Repository
 {
     public interface IUserRepository : IGenericRepository<UserDomain, Guid>
     {

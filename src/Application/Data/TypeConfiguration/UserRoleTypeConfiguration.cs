@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using suavesabor_api.User.Domain;
+using shortfy_api.User.Domain;
 
-namespace suavesabor_api.src.Application.Data.TypeConfiguration
+namespace shortfy_api.src.Application.Data.TypeConfiguration
 {
     public class UserRoleTypeConfiguration : IEntityTypeConfiguration<UserRoleDomain>
     {

@@ -1,4 +1,4 @@
-﻿namespace suavesabor_api.src.Application.Exceptions
+﻿namespace shortfy_api.src.Application.Exceptions
 {
     public class TokenNotValidExpcetion : Exception
     {

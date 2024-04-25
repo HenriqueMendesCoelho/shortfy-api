@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace suavesabor_api.User.Domain
+namespace shortfy_api.User.Domain
 {
     [Table("UserRole")]
     public class UserRoleDomain

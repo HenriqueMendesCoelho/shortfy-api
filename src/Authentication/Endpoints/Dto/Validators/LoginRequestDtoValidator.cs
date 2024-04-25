@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using suavesabor_api.src.Authentication.Endpoints.Dto;
+using shortfy_api.src.Authentication.Endpoints.Dto;
 
-namespace suavesabor_api.src.Authentication.Endpoints.Dto.Validators
+namespace shortfy_api.src.Authentication.Endpoints.Dto.Validators
 {
     public class LoginRequestDtoValidator : AbstractValidator<LoginRequestDto>
     {

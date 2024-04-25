@@ -1,4 +1,4 @@
-﻿namespace suavesabor_api.src.Application.Configuration
+﻿namespace shortfy_api.src.Application.Configuration
 {
     public class TokenConfiguration
     {

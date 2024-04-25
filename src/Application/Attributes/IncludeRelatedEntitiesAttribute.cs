@@ -1,4 +1,4 @@
-﻿namespace suavesabor_api.src.Application.Attributes
+﻿namespace shortfy_api.src.Application.Attributes
 {
     public class IncludeRelatedEntitiesAttribute(params string[] entities) : Attribute
     {

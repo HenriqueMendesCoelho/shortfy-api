@@ -1,6 +1,6 @@
-﻿using suavesabor_api.src.Application.Domain;
+﻿using shortfy_api.src.Application.Domain;
 
-namespace suavesabor_api.src.Application.Dto
+namespace shortfy_api.src.Application.Dto
 {
     public class MessageResponseDto
     {

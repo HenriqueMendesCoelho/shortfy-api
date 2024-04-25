@@ -1,6 +1,6 @@
-﻿using suavesabor_api.src.Authentication.Domain;
+﻿using shortfy_api.src.Authentication.Domain;
 
-namespace suavesabor_api.src.Authentication.Endpoints.Dto
+namespace shortfy_api.src.Authentication.Endpoints.Dto
 {
     public class LoginResponseDto(LoginDomain domain)
     {

@@ -3,29 +3,29 @@ using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using suavesabor_api.src.Application.Data;
-using suavesabor_api.src.Application.Repository.Generic;
-using suavesabor_api.src.Application.Repository.Generic.Impl;
-using suavesabor_api.src.Authentication.Endpoints.Dto;
-using suavesabor_api.src.Authentication.Endpoints.Dto.Validators;
-using suavesabor_api.src.Authentication.UseCase;
-using suavesabor_api.src.Authentication.UseCase.Impl;
-using suavesabor_api.src.User.Endpoints.Dto;
-using suavesabor_api.src.User.Endpoints.Dto.Validators;
-using suavesabor_api.src.User.UseCase;
-using suavesabor_api.src.User.UseCase.Impl;
-using suavesabor_api.User.Domain;
-using suavesabor_api.User.Endpoints.Dto;
-using suavesabor_api.User.Endpoints.Dto.Validators;
-using suavesabor_api.User.Repository;
-using suavesabor_api.User.Repository.Impl;
-using suavesabor_api.User.UseCase;
-using suavesabor_api.User.UseCase.Impl;
+using shortfy_api.src.Application.Data;
+using shortfy_api.src.Application.Repository.Generic;
+using shortfy_api.src.Application.Repository.Generic.Impl;
+using shortfy_api.src.Authentication.Endpoints.Dto;
+using shortfy_api.src.Authentication.Endpoints.Dto.Validators;
+using shortfy_api.src.Authentication.UseCase;
+using shortfy_api.src.Authentication.UseCase.Impl;
+using shortfy_api.src.User.Endpoints.Dto;
+using shortfy_api.src.User.Endpoints.Dto.Validators;
+using shortfy_api.src.User.UseCase;
+using shortfy_api.src.User.UseCase.Impl;
+using shortfy_api.User.Domain;
+using shortfy_api.User.Endpoints.Dto;
+using shortfy_api.User.Endpoints.Dto.Validators;
+using shortfy_api.User.Repository;
+using shortfy_api.User.Repository.Impl;
+using shortfy_api.User.UseCase;
+using shortfy_api.User.UseCase.Impl;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace suavesabor_api.src.Application.Configuration
+namespace shortfy_api.src.Application.Configuration
 {
     public static class Configuration
     {

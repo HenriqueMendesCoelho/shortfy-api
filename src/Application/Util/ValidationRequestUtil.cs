@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 
-namespace suavesabor_api.src.Application.Util
+namespace shortfy_api.src.Application.Util
 {
     public class ValidationRequestUtil
     {

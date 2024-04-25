@@ -1,18 +1,18 @@
-﻿using suavesabor_api.src.Application.Domain;
-using suavesabor_api.src.Application.Dto;
-using suavesabor_api.src.Application.Exceptions;
-using suavesabor_api.src.Application.Util;
-using suavesabor_api.src.Authentication.UseCase.Exceptions;
-using suavesabor_api.src.User.Endpoints.Dto;
-using suavesabor_api.src.User.Endpoints.Dto.Validators;
-using suavesabor_api.src.User.UseCase;
-using suavesabor_api.src.User.UseCase.Exceptions;
-using suavesabor_api.User.Endpoints.Dto;
-using suavesabor_api.User.Endpoints.Dto.Validators;
-using suavesabor_api.User.UseCase;
+﻿using shortfy_api.src.Application.Domain;
+using shortfy_api.src.Application.Dto;
+using shortfy_api.src.Application.Exceptions;
+using shortfy_api.src.Application.Util;
+using shortfy_api.src.Authentication.UseCase.Exceptions;
+using shortfy_api.src.User.Endpoints.Dto;
+using shortfy_api.src.User.Endpoints.Dto.Validators;
+using shortfy_api.src.User.UseCase;
+using shortfy_api.src.User.UseCase.Exceptions;
+using shortfy_api.User.Endpoints.Dto;
+using shortfy_api.User.Endpoints.Dto.Validators;
+using shortfy_api.User.UseCase;
 using System.Security.Claims;
 
-namespace suavesabor_api.User.Endpoints
+namespace shortfy_api.User.Endpoints
 {
     public static class UserEndpoints
     {

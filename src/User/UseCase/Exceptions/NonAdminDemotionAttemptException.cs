@@ -1,4 +1,4 @@
-﻿namespace suavesabor_api.src.User.UseCase.Exceptions
+﻿namespace shortfy_api.src.User.UseCase.Exceptions
 {
     public class NonAdminDemotionAttemptException : Exception
     {

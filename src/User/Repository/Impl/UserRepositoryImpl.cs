@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using suavesabor_api.src.Application.Data;
-using suavesabor_api.src.Application.Repository.Generic.Impl;
-using suavesabor_api.User.Domain;
+using shortfy_api.src.Application.Data;
+using shortfy_api.src.Application.Repository.Generic.Impl;
+using shortfy_api.User.Domain;
 
-namespace suavesabor_api.User.Repository.Impl
+namespace shortfy_api.User.Repository.Impl
 {
     public class UserRepositoryImpl(DataContext context) : GenericRepositoryImpl<UserDomain, Guid>(context), IUserRepository
     {

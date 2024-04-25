@@ -1,4 +1,4 @@
-﻿namespace suavesabor_api.src.Authentication.Domain
+﻿namespace shortfy_api.src.Authentication.Domain
 {
     public class RefreshTokenDomain
     {

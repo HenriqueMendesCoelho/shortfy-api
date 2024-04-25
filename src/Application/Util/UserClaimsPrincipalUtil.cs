@@ -1,7 +1,7 @@
-﻿using suavesabor_api.src.Application.Exceptions;
+﻿using shortfy_api.src.Application.Exceptions;
 using System.Security.Claims;
 
-namespace suavesabor_api.src.Application.Util
+namespace shortfy_api.src.Application.Util
 {
     public class UserClaimsPrincipalUtil
     {

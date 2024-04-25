@@ -1,4 +1,4 @@
-﻿namespace suavesabor_api.User.Domain
+﻿namespace shortfy_api.User.Domain
 {
     public enum RoleDomain
     {

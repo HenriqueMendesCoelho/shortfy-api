@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using suavesabor_api.src.Application.Attributes;
-using suavesabor_api.src.Application.Data;
-using suavesabor_api.src.Application.Domain.Base;
+using shortfy_api.src.Application.Attributes;
+using shortfy_api.src.Application.Data;
+using shortfy_api.src.Application.Domain.Base;
 
-namespace suavesabor_api.src.Application.Repository.Generic.Impl
+namespace shortfy_api.src.Application.Repository.Generic.Impl
 {
     public class GenericRepositoryImpl<T, TKey> : IGenericRepository<T, TKey> where T : class, IEntity<TKey>
     {

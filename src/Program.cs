@@ -1,6 +1,6 @@
-using suavesabor_api.src.Application.Configuration;
-using suavesabor_api.src.Authentication.Endpoints;
-using suavesabor_api.User.Endpoints;
+using shortfy_api.src.Application.Configuration;
+using shortfy_api.src.Authentication.Endpoints;
+using shortfy_api.User.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 

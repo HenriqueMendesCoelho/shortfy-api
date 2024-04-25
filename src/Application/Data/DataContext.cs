@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using suavesabor_api.src.Application.Data.TypeConfiguration;
-using suavesabor_api.User.Domain;
+using shortfy_api.src.Application.Data.TypeConfiguration;
+using shortfy_api.User.Domain;
 
-namespace suavesabor_api.src.Application.Data
+namespace shortfy_api.src.Application.Data
 {
     public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
     {

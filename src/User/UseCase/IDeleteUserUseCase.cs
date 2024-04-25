@@ -1,4 +1,4 @@
-﻿namespace suavesabor_api.src.User.UseCase
+﻿namespace shortfy_api.src.User.UseCase
 {
     public interface IDeleteUserUseCase
     {

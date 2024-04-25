@@ -1,11 +1,11 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using suavesabor_api.src.Application.Configuration;
-using suavesabor_api.src.Authentication.Domain;
+using shortfy_api.src.Application.Configuration;
+using shortfy_api.src.Authentication.Domain;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace suavesabor_api.src.Authentication.UseCase.Impl
+namespace shortfy_api.src.Authentication.UseCase.Impl
 {
     public class CreateTokenUseCaseImpl(TokenConfiguration tokenConfiguration) : ICreateTokenUseCase
     {

@@ -1,9 +1,9 @@
-﻿using suavesabor_api.src.Application.Attributes;
-using suavesabor_api.src.Application.Domain.Base;
+﻿using shortfy_api.src.Application.Attributes;
+using shortfy_api.src.Application.Domain.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace suavesabor_api.User.Domain
+namespace shortfy_api.User.Domain
 {
     [Table("User")]
     [IncludeRelatedEntities("Roles")]

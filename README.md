@@ -1,11 +1,13 @@
-# Suave Sabor Bakery API
+# Shortfy
 
-This repository contains an API built using C# and .NET 8, leveraging Entity Framework and Postgres to manage bakery operations efficiently.
+Shortfy is a simple URL shortening service that helps you convert long URLs into short, easy-to-share links.
 
 ## Features
 
-- **Order Processing**: Handle orders and streamline the fulfillment process.
-- **Customer Management**: Maintain customer data for a personalized experience.
+- **Shorten URLs**: Quickly shorten long URLs into concise links.
+- **Custom Short URLs**: Customize short URLs for better branding and recognition.
+- **Analytics**: Track link usage and engagement with built-in analytics.
+- **Security**: Ensure the security of your shortened URLs with optional features like expiration dates.
 
 ## Technologies Used
 
@@ -14,3 +16,4 @@ This repository contains an API built using C# and .NET 8, leveraging Entity Fra
 - **Entity Framework**
 - **JWT Token**
 - **Postgres**
+

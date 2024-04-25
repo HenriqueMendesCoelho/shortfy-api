@@ -1,9 +1,9 @@
-﻿using suavesabor_api.src.Application.Util;
-using suavesabor_api.src.Authentication.Domain;
-using suavesabor_api.src.Authentication.UseCase.Exceptions;
-using suavesabor_api.User.Repository;
+﻿using shortfy_api.src.Application.Util;
+using shortfy_api.src.Authentication.Domain;
+using shortfy_api.src.Authentication.UseCase.Exceptions;
+using shortfy_api.User.Repository;
 
-namespace suavesabor_api.src.Authentication.UseCase.Impl
+namespace shortfy_api.src.Authentication.UseCase.Impl
 {
     public class LoginUseCaseImpl(IUserRepository userRepository, ICreateRefreshTokenUseCase createRefreshTokenUseCase,
         ICreateTokenUseCase createTokenUseCase) : ILoginUseCase

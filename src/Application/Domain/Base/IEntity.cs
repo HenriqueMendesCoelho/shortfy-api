@@ -1,4 +1,4 @@
-﻿namespace suavesabor_api.src.Application.Domain.Base
+﻿namespace shortfy_api.src.Application.Domain.Base
 {
     public interface IEntity<T>
     {

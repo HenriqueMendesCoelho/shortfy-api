@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace suavesabor_api.src.User.Endpoints.Dto.Validators
+namespace shortfy_api.src.User.Endpoints.Dto.Validators
 {
     public class UserUpdateRequestDtoValidator : AbstractValidator<UserUpdateRequestDto>
     {

@@ -1,8 +1,8 @@
-﻿using suavesabor_api.src.Application.Configuration;
-using suavesabor_api.src.Authentication.Domain;
+﻿using shortfy_api.src.Application.Configuration;
+using shortfy_api.src.Authentication.Domain;
 using System.Security.Cryptography;
 
-namespace suavesabor_api.src.Authentication.UseCase.Impl
+namespace shortfy_api.src.Authentication.UseCase.Impl
 {
     public class CreateRefreshTokenUseCaseImpl(TokenConfiguration tokenConfiguration) : ICreateRefreshTokenUseCase
     {

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace suavesabor_api.src.Migrations
+namespace shortfy_api.src.Migrations
 {
     /// <inheritdoc />
     public partial class createInitial : Migration

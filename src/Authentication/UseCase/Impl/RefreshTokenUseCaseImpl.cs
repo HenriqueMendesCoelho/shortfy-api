@@ -1,9 +1,9 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using suavesabor_api.src.Authentication.Domain;
-using suavesabor_api.src.Authentication.UseCase.Exceptions;
-using suavesabor_api.User.Repository;
+using shortfy_api.src.Authentication.Domain;
+using shortfy_api.src.Authentication.UseCase.Exceptions;
+using shortfy_api.User.Repository;
 
-namespace suavesabor_api.src.Authentication.UseCase.Impl
+namespace shortfy_api.src.Authentication.UseCase.Impl
 {
     public class RefreshTokenUseCaseImpl(ICreateRefreshTokenUseCase createRefreshTokenUseCase, ICreateTokenUseCase createTokenUseCase,
         IUserRepository userRepository) : IRefreshTokenUseCase

@@ -1,4 +1,4 @@
-﻿namespace suavesabor_api.src.Authentication.Endpoints.Dto
+﻿namespace shortfy_api.src.Authentication.Endpoints.Dto
 {
     public class LoginRequestDto
     {

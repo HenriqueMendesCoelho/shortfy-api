@@ -1,6 +1,6 @@
-﻿using suavesabor_api.src.Application.Domain.Base;
+﻿using shortfy_api.src.Application.Domain.Base;
 
-namespace suavesabor_api.src.Application.Repository.Generic
+namespace shortfy_api.src.Application.Repository.Generic
 {
     public interface IGenericRepository<T, TKey> where T : IEntity<TKey>
     {

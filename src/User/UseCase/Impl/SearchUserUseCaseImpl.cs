@@ -1,8 +1,8 @@
-﻿using suavesabor_api.src.Authentication.UseCase.Exceptions;
-using suavesabor_api.User.Domain;
-using suavesabor_api.User.Repository;
+﻿using shortfy_api.src.Authentication.UseCase.Exceptions;
+using shortfy_api.User.Domain;
+using shortfy_api.User.Repository;
 
-namespace suavesabor_api.User.UseCase.Impl
+namespace shortfy_api.User.UseCase.Impl
 {
     public class SearchUserUseCaseImpl(IUserRepository repository) : ISearchUserUseCase
     {

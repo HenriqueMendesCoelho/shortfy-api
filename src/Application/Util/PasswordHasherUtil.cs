@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace suavesabor_api.src.Application.Util
+namespace shortfy_api.src.Application.Util
 {
     public class PasswordHasherUtil
     {

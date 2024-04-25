@@ -1,6 +1,6 @@
-﻿using suavesabor_api.User.Domain;
+﻿using shortfy_api.User.Domain;
 
-namespace suavesabor_api.src.User.UseCase
+namespace shortfy_api.src.User.UseCase
 {
     public interface IUpdateUserUseCase
     {

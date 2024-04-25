@@ -1,12 +1,12 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using suavesabor_api.src.Application.Dto;
-using suavesabor_api.src.Application.Util;
-using suavesabor_api.src.Authentication.Endpoints.Dto;
-using suavesabor_api.src.Authentication.Endpoints.Dto.Validators;
-using suavesabor_api.src.Authentication.UseCase;
-using suavesabor_api.src.Authentication.UseCase.Exceptions;
+using shortfy_api.src.Application.Dto;
+using shortfy_api.src.Application.Util;
+using shortfy_api.src.Authentication.Endpoints.Dto;
+using shortfy_api.src.Authentication.Endpoints.Dto.Validators;
+using shortfy_api.src.Authentication.UseCase;
+using shortfy_api.src.Authentication.UseCase.Exceptions;
 
-namespace suavesabor_api.src.Authentication.Endpoints
+namespace shortfy_api.src.Authentication.Endpoints
 {
     public static class AuthenticationEndpoints
     {

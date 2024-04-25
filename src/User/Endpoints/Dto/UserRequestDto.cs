@@ -1,6 +1,6 @@
-﻿using suavesabor_api.User.Domain;
+﻿using shortfy_api.User.Domain;
 
-namespace suavesabor_api.User.Endpoints.Dto
+namespace shortfy_api.User.Endpoints.Dto
 {
     public class UserRequestDto
     {
