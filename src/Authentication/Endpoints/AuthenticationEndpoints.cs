@@ -39,13 +39,6 @@ namespace shortfy_api.src.Authentication.Endpoints
                 }
             });
 
-            route.MapPost("/oauth/google/callback", async (HttpContext httpContext) =>
-            {
-                //Print request body
-                var requestBody = await new StreamReader(httpContext.Request.Body).ReadToEndAsync();
-                Console.WriteLine(requestBody);
-            });
-
             route.MapPost("login", async (LoginRequestDto request, ILoginUseCase loginUseCase, HttpContext httpContext, ILogger logger) =>
             {
                 var validationResult = ValidationRequestUtil.IsValid(new LoginRequestDtoValidator(), request);
