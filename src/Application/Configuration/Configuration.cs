@@ -29,6 +29,10 @@ namespace shortfy_api.src.Application.Configuration
 {
     public static class Configuration
     {
+        private static ILogger logger = LoggerFactory.Create(loggingBuilder => loggingBuilder.SetMinimumLevel(LogLevel.Trace)
+        .AddConsole())
+            .CreateLogger<Program>();
+
         public static void RegisterServices(this WebApplicationBuilder builder)
         {
             builder.Services
@@ -59,6 +63,9 @@ namespace shortfy_api.src.Application.Configuration
             builder.Services.AddScoped<ICreateUserUseCase, CreateUserUseCaseImpl>();
             builder.Services.AddScoped<ICreateTokenUseCase, CreateTokenUseCaseImpl>();
             builder.Services.AddScoped<ILoginUseCase, LoginUseCaseImpl>();
+            builder.Services.AddScoped<ICreateUserLoginUseCase, CreateUserLoginUseCaseImpl>();
+            builder.Services.AddScoped<ILoginGoogleUseCase, LoginGoogleUseCaseImpl>();
+            builder.Services.AddScoped<ILoginMicrosoftUseCase, LoginMicrosoftUseCaseImpl>();
             builder.Services.AddScoped<IGetPrincipalTokenUseCase, GetPrincipalTokenUseCaseImpl>();
             builder.Services.AddScoped<ICreateRefreshTokenUseCase, CreateRefreshTokenUseCaseImpl>();
             builder.Services.AddScoped<IRefreshTokenUseCase, RefreshTokenUseCaseImpl>();
@@ -69,6 +76,7 @@ namespace shortfy_api.src.Application.Configuration
 
             builder.Services.AddTransient<IValidator<UserRequestDto>, UserRequestDtoValidator>();
             builder.Services.AddTransient<IValidator<LoginRequestDto>, LoginRequestDtoValidator>();
+            builder.Services.AddTransient<IValidator<LoginOAuthRequestDto>, LoginOAuthRequestDtoValidator>();
             builder.Services.AddTransient<IValidator<RefreshRequestDto>, RefreshTokenRequestDtoValidator>();
             builder.Services.AddTransient<IValidator<UserUpdateRequestDto>, UserUpdateRequestDtoValidator>();
 
@@ -94,25 +102,51 @@ namespace shortfy_api.src.Application.Configuration
 
         }
 
-        public static void AuthenticationConfig(this WebApplicationBuilder builder)
+        public static void RegisterSections(this WebApplicationBuilder builder)
+        {
+            var googleConfiguration = builder.Configuration.GetSection("GoogleConfiguration").Get<GoogleConfiguration>();
+            var googleClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
+
+            if (string.IsNullOrEmpty(googleClientId))
+            {
+                logger.LogError("You must set your 'GOOGLE_CLIENT_ID' environment variable. \n");
+                Environment.Exit(10);
+            }
+            if (googleConfiguration is null)
+            {
+                logger.LogError("GoogleConfiguration is null.");
+                Environment.Exit(10);
+            }
+
+            googleConfiguration.ClientId = googleClientId;
+            builder.Services.AddSingleton(googleConfiguration);
+
+            var microsoftEntraIdConfiguration = builder.Configuration.GetSection("MicrosoftEntraIdConfiguration").Get<MicrosoftEntraIdConfiguration>();
+            var microsoftClientId = Environment.GetEnvironmentVariable("MICROSOFT_CLIENT_ID");
+            if (string.IsNullOrEmpty(microsoftClientId))
+            {
+                logger.LogError("You must set your 'MICROSOFT_CLIENT_ID' environment variable. \n");
+                Environment.Exit(10);
+            }
+            if (microsoftEntraIdConfiguration is null)
+            {
+                logger.LogError("MicrosoftEntraIdConfiguration is null.");
+                Environment.Exit(10);
+            }
+
+            microsoftEntraIdConfiguration.ClientId = microsoftClientId;
+            builder.Services.AddSingleton(microsoftEntraIdConfiguration);
+        }
+
+        public static void JwtAuthConfig(this WebApplicationBuilder builder)
         {
             var token = builder.Configuration.GetSection("TokenConfiguration").Get<TokenConfiguration>();
-            var googleConfiguration = builder.Configuration.GetSection("GoogleConfiguration").Get<GoogleConfiguration>();
-
             var tokenEnvSecret = Environment.GetEnvironmentVariable("JWT_SECRET");
-            var googleClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
-            var googleClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
-
 
             if (tokenEnvSecret is null)
             {
-                Console.WriteLine("You must set your 'JWT_SECRET' environment variable. \n");
-                Environment.Exit(0);
-            }
-            if (googleClientId is null || googleClientSecret is null)
-            {
-                Console.WriteLine("You must set your 'GOOGLE_CLIENT_ID' and 'GOOGLE_CLIENT_SECRET' environment variable. \n");
-                Environment.Exit(0);
+                logger.LogError("You must set your 'JWT_SECRET' environment variable. \n");
+                Environment.Exit(10);
             }
             if (token is not null)
             {
@@ -121,19 +155,8 @@ namespace shortfy_api.src.Application.Configuration
             }
             else
             {
-                Console.WriteLine("TokenConfiguration is null.");
-                Environment.Exit(0);
-            }
-            if (googleConfiguration is not null)
-            {
-                googleConfiguration.ClientId = googleClientId;
-                googleConfiguration.ClientSecret = googleClientSecret;
-                builder.Services.AddSingleton(googleConfiguration);
-            }
-            else
-            {
-                Console.WriteLine("GoogleConfiguration is null.");
-                Environment.Exit(0);
+                logger.LogError("TokenConfiguration is null.");
+                Environment.Exit(10);
             }
 
             builder.Services.AddAuthentication(options =>
@@ -175,7 +198,11 @@ namespace shortfy_api.src.Application.Configuration
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger()
-                   .UseSwaggerUI();
+                   .UseSwaggerUI((settings) =>
+                   {
+                       settings.SwaggerEndpoint("/swagger/v1/swagger.yaml", "v1-yaml");
+                       settings.SwaggerEndpoint("/swagger/v1/swagger.json", "v1-json");
+                   });
             }
             //app.UseHttpsRedirection();
         }
@@ -195,6 +222,5 @@ namespace shortfy_api.src.Application.Configuration
             var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();
             dataContext.Database.Migrate();
         }
-
     }
 }

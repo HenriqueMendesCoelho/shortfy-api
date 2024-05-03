@@ -2,8 +2,8 @@
 
 namespace shortfy_api.src.Authentication.UseCase
 {
-    public interface ILoginUseCase
+    public interface ILoginGoogleUseCase
     {
-        Task<LoginDomain> ExecuteAsync(string email, string passwordString);
+        Task<LoginDomain> ExecuteAsync(string idToken);
     }
 }

@@ -14,16 +14,17 @@ namespace shortfy_api.src.Authentication.Endpoints
         {
             var route = routes.MapGroup("/api/v1");
 
-            route.MapPost("/google-signin", async (GoogleLoginRequestDto request, ILoginUseCase loginUseCase, ILogger logger) =>
+            route.MapPost("/google-signin", async (LoginOAuthRequestDto request, ILoginGoogleUseCase loginGoogleUseCase, ILogger logger) =>
             {
                 try
                 {
-                    if (request is null || string.IsNullOrEmpty(request.idToken))
+                    var validationResult = ValidationRequestUtil.IsValid(new LoginOAuthRequestDtoValidator(), request);
+                    if (validationResult is not true)
                     {
-                        return Results.BadRequest();
+                        return Results.BadRequest(validationResult);
                     }
-                    var token = request.idToken!;
-                    var response = await loginUseCase.ExecuteFromGoogle(token);
+                    string token = request.idToken!;
+                    var response = await loginGoogleUseCase.ExecuteAsync(token);
 
                     return Results.Ok(response);
                 }
@@ -37,7 +38,33 @@ namespace shortfy_api.src.Authentication.Endpoints
                     logger.LogError(e.Message, e);
                     return Results.Problem(e.Message);
                 }
-            });
+            }).Produces<LoginResponseDto>(200);
+
+            route.MapPost("/microsoft-signin", async (LoginOAuthRequestDto request, ILoginMicrosoftUseCase loginMicrosoftUseCase, ILogger logger) =>
+            {
+                try
+                {
+                    var validationResult = ValidationRequestUtil.IsValid(new LoginOAuthRequestDtoValidator(), request);
+                    if (validationResult is not true)
+                    {
+                        return Results.BadRequest(validationResult);
+                    }
+                    string token = request.idToken!;
+                    var response = await loginMicrosoftUseCase.ExecuteAsync(token);
+
+                    return Results.Ok(response);
+                }
+                catch (Exception e) when (e is UserNotFoundException || e is UserAccessDeniedException)
+                {
+                    logger.LogError(e.Message, e);
+                    return Results.Unauthorized();
+                }
+                catch (Exception e)
+                {
+                    logger.LogError(e.Message, e);
+                    return Results.Problem(e.Message);
+                }
+            }).Produces<LoginResponseDto>(200);
 
             route.MapPost("login", async (LoginRequestDto request, ILoginUseCase loginUseCase, HttpContext httpContext, ILogger logger) =>
             {
@@ -49,7 +76,7 @@ namespace shortfy_api.src.Authentication.Endpoints
 
                 try
                 {
-                    var response = await loginUseCase.Execute(request.Email, request.Password);
+                    var response = await loginUseCase.ExecuteAsync(request.Email, request.Password);
                     return Results.Ok(response);
                 }
                 catch (Exception e) when (e is UserNotFoundException || e is UserAccessDeniedException)
@@ -61,7 +88,7 @@ namespace shortfy_api.src.Authentication.Endpoints
                     logger.LogError(e.Message, e);
                     return Results.Problem(e.Message);
                 }
-            });
+            }).Produces<LoginResponseDto>(200);
 
             route.MapPost("refresh", async (RefreshRequestDto request, IRefreshTokenUseCase refreshTokenUseCase, HttpContext httpContext, ILogger logger) =>
             {
@@ -89,7 +116,7 @@ namespace shortfy_api.src.Authentication.Endpoints
                     logger.LogError(e.Message, e);
                     return Results.Problem(e.Message);
                 }
-            });
+            }).Produces<LoginResponseDto>(200);
         }
     }
 }

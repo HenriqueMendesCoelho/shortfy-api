@@ -23,7 +23,7 @@ namespace shortfy_api.src.Authentication.UseCase.Impl
             rng.GetBytes(randomNumber);
             var refreshToken = Convert.ToBase64String(randomNumber);
 
-            return refreshToken;
+            return refreshToken[..^2];
         }
     }
 }

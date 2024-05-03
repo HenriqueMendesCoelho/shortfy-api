@@ -3,5 +3,7 @@
     public class UserAccessDeniedException : System.Exception
     {
         public UserAccessDeniedException() : base("User Access Denied") { }
+
+        public UserAccessDeniedException(string reason) : base($"User Access Denied reson: {reason}") { }
     }
 }

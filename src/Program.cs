@@ -9,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.RegisterServices();
 builder.InjectDepencies();
 builder.ConnectToDb();
-builder.AuthenticationConfig();
+builder.JwtAuthConfig();
+builder.RegisterSections();
 
 
 var app = builder.Build();

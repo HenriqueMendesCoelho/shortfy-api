@@ -1,4 +1,5 @@
-﻿using shortfy_api.src.Application.Domain;
+﻿using Microsoft.AspNetCore.Mvc;
+using shortfy_api.src.Application.Domain;
 using shortfy_api.src.Application.Dto;
 using shortfy_api.src.Application.Exceptions;
 using shortfy_api.src.Application.Util;
@@ -29,7 +30,7 @@ namespace shortfy_api.User.Endpoints
                 }
 
                 return Results.Ok(response);
-            }).RequireAuthorization("ADMIN");
+            }).RequireAuthorization("ADMIN").Produces<List<UserResponseDto>>(200);
 
             users.MapGet("/{id}", async (Guid id, ISearchUserUseCase useCase) =>
             {
@@ -42,7 +43,7 @@ namespace shortfy_api.User.Endpoints
                 {
                     return Results.NotFound(MessageResponseDto.Create("User not found", 404));
                 }
-            }).RequireAuthorization();
+            }).RequireAuthorization().Produces<UserResponseDto>(200);
 
             users.MapPost("", async (UserRequestDto request, ICreateUserUseCase useCase, ILogger logger) =>
             {
@@ -75,7 +76,7 @@ namespace shortfy_api.User.Endpoints
                     logger.LogError(e, $"Error on update user '(POST)/api/v1/user'");
                     return Results.Problem("Internal Server Error, contact administrator");
                 }
-            });
+            }).Produces<UserResponseDto>(200);
 
             users.MapPut("/{id}", async (Guid id, UserUpdateRequestDto request, IUpdateUserUseCase useCase, ClaimsPrincipal userClaims,
                 ILogger logger) =>
@@ -110,7 +111,7 @@ namespace shortfy_api.User.Endpoints
                     return Results.Problem("Internal Server Error, contact administrator");
                 }
 
-            }).RequireAuthorization("USER");
+            }).RequireAuthorization("USER").Produces<UserResponseDto>(200);
 
             users.MapPatch("/{id}/roles/promote", async (Guid id, IPromoteUserUseCase useCase, ClaimsPrincipal userClaims, ILogger logger) =>
             {
@@ -130,7 +131,7 @@ namespace shortfy_api.User.Endpoints
                     return Results.Problem("Internal Server Error, contact administrator");
                 }
 
-            }).RequireAuthorization("ADMIN");
+            }).RequireAuthorization("ADMIN").Produces<MessageDomain>(200);
 
             users.MapPatch("/{id}/roles/demote", async (Guid id, IDemoteUserUseCase useCase, ClaimsPrincipal userClaims, ILogger logger) =>
             {
@@ -150,7 +151,8 @@ namespace shortfy_api.User.Endpoints
                     return Results.Problem("Internal Server Error, contact administrator");
                 }
 
-            }).RequireAuthorization("ADMIN");
+            }).RequireAuthorization("ADMIN")
+            .Produces<MessageDomain>(200);
 
             users.MapDelete("/{id}", async (Guid id, IDeleteUserUseCase useCase, ClaimsPrincipal userClaims, ILogger logger) =>
             {
@@ -158,7 +160,7 @@ namespace shortfy_api.User.Endpoints
                 {
                     var idCurrentUser = UserClaimsPrincipalUtil.GetId(userClaims);
                     await useCase.Execute(id, idCurrentUser);
-                    return Results.NoContent();
+                    return TypedResults.NoContent();
                 }
                 catch (TokenNotValidExpcetion)
                 {
@@ -173,7 +175,12 @@ namespace shortfy_api.User.Endpoints
                     logger.LogError(e, $"Error on delete user '(DELETE)/api/v1/user/${id}'");
                     return Results.Problem("Internal Server Error, contact administrator");
                 }
-            }).RequireAuthorization("ADMIN");
+            }).RequireAuthorization("ADMIN")
+            .Produces(204)
+            .Produces<ProblemDetails>(400)
+            .Produces(401)
+            .Produces<ProblemDetails>(500);
+
         }
     }
 }

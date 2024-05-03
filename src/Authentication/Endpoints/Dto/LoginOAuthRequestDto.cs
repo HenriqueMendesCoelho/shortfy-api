@@ -1,6 +1,6 @@
 ﻿namespace shortfy_api.src.Authentication.Endpoints.Dto
 {
-    public class GoogleLoginRequestDto
+    public class LoginOAuthRequestDto
     {
         public string idToken { get; set; } = string.Empty;
     }
