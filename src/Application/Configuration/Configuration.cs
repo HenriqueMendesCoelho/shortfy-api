@@ -3,6 +3,7 @@ using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using shortfy_api.src.Application.Configuration.SwaggerSchema;
 using shortfy_api.src.Application.Data;
 using shortfy_api.src.Application.Repository.Generic;
 using shortfy_api.src.Application.Repository.Generic.Impl;
@@ -36,15 +37,18 @@ namespace shortfy_api.src.Application.Configuration
         public static void RegisterServices(this WebApplicationBuilder builder)
         {
             builder.Services
+                    .Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+                    {
+                        options.SerializerOptions.PropertyNameCaseInsensitive = false;
+                        options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
+                        options.SerializerOptions.WriteIndented = true;
+                        options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                        options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                    })
                    .AddEndpointsApiExplorer()
-                   .AddSwaggerGen()
-                   .Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+                   .AddSwaggerGen(c =>
                    {
-                       options.SerializerOptions.PropertyNameCaseInsensitive = false;
-                       options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
-                       options.SerializerOptions.WriteIndented = true;
-                       options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-                       options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                       c.SchemaFilter<SnakeCaseSchemaFilter>();
                    });
             builder.Services.AddCors();
             builder.Services.AddTransient<ILogger>(p =>
